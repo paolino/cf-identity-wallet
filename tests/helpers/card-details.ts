@@ -2,7 +2,7 @@ import { driver } from "@wdio/globals";
 import { expect } from "expect-webdriverio";
 import { Message } from "../constants/toast.constants.js";
 import Assert from "./assert.js";
-import IdentityCardDetailsScreen from "../screen-objects/identity/identity-card-details.screen.js";
+import IdentifierCardDetailsScreen from "../screen-objects/identifiers/identifier-card-details.screen.js";
 
 export function cardDetails() {
   const backerAddressName = "backer-address"
@@ -12,7 +12,7 @@ export function cardDetails() {
   const copyAndVerifyDetailsFor = async (blockName: string) => {
     await driver.setClipboard("");
     await (
-      await IdentityCardDetailsScreen.cardBlockButtonFor(blockName)
+      await IdentifierCardDetailsScreen.cardBlockButtonFor(blockName)
     ).click();
     await Assert.toast(Message.CopiedToClipboard);
     await Assert.clipboard();
@@ -29,14 +29,14 @@ export function cardDetails() {
     blockTestId: string,
   ) => {
     await expect(
-      await IdentityCardDetailsScreen.cardBlockTitleFor(
+      await IdentifierCardDetailsScreen.cardBlockTitleFor(
         blockTitle.replace(/\s+/g, ""),
       ),
     ).toHaveText(blockTitle, {
       ignoreCase: true,
     });
     await expect(
-      await IdentityCardDetailsScreen.cardBlockTextValueFor(blockTestId),
+      await IdentifierCardDetailsScreen.cardBlockTextValueFor(blockTestId),
     ).toBeDisplayed();
   };
 
@@ -46,7 +46,7 @@ export function cardDetails() {
   ) => {
     await assertKeriPartialBlockFor(blockTitle, blockTestId);
     await expect(
-      await IdentityCardDetailsScreen.cardBlockButtonFor(blockTestId),
+      await IdentifierCardDetailsScreen.cardBlockButtonFor(blockTestId),
     ).toBeDisplayed();
   };
 

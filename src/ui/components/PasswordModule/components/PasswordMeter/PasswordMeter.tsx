@@ -41,7 +41,8 @@ const PasswordMeter = ({ password }: PasswordMeterProps) => {
         <p>{label}</p>
       </div>
     }
-    <p className={acceptCriteriaClass}>
+    <p className={acceptCriteriaClass}
+      data-testid="password-accept-criteria">
       <Trans i18nKey="createpassword.meter.acceptcriteria.text" />
     </p>
   </div>
