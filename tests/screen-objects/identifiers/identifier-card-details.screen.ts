@@ -1,12 +1,14 @@
 import { expect } from "expect-webdriverio";
 import { format } from "date-fns";
-import { cardDetails } from "../../helpers/card-details.js";
 import BaseModal from "../components/base.modal.js";
 import { IdentifierDetails } from "../../constants/text.constants.js";
 
 export class IdentifierCardDetailsScreen {
-  identifierParentLocator =
-    "[data-testid=\"identifier-card-template-default-index-0\"]";
+  // identifierParentLocator =
+  //   "[data-testid=\"identifier-card-template-default-index-0\"]";
+  creationTimestampLocator="creation-timestamp";
+  identifierIdLocator="identifier-id";
+  signingKeyLocator="signingkey";
 
   get alertModal() {
     return "[data-testid=\"alert-confirm-identifier-delete-details\"]";
@@ -18,14 +20,6 @@ export class IdentifierCardDetailsScreen {
 
   get favouriteButton() {
     return $("[data-testid=\"heart-button\"]");
-  }
-
-  get identifierIdValue() {
-    return $("[data-testid=\"identifier-id-text-value\"]");
-  }
-
-  get signingKeyValue() {
-    return $("[data-testid=\"signing-key-0-text-value\"]");
   }
 
   get optionsButton() {
@@ -44,34 +38,43 @@ export class IdentifierCardDetailsScreen {
     return $("[data-testid=\"share-button\"]");
   }
 
-  async cardBlockButtonFor(blockName: string) {
-    return $(`[data-testid="${blockName}-copy-button"]`);
+  get showAdvancedDetailsButton() {
+    return $("[data-testid=\"show-advanced-block-nav-button\"]");
   }
 
-  async cardBlockTextValueFor(blockName: string) {
-    return $(`[data-testid="${blockName}-text-value"]`);
+  async blockTextValueFor(blockName: string) {
+    return $(`[data-testid="${blockName}-block-text-value"]`);
   }
 
-  async cardBlockKeyValueFor(blockName: string) {
+  async cardCreationDateText(index: number) {
+    return $(`[data-testid="card-created-${index}"]`);
+  }
+
+
+  async cardDisplayNameText(index: number) {
+    return $(`[data-testid="card-display-name-${index}"]`);
+  }
+
+  async copyButtonFor(name: string) {
+    return $(`[data-testid="${name}-block-copy-button"]`);
+  }
+
+  async keyValueFor(blockName: string) {
     return $(`[data-testid="${blockName}-key-value"]`);
   }
 
-  async cardBlockTitleFor(blockName: string) {
-    return $(`[data-testid="card-block-title-${blockName}"]`);
+  async signingKeyValueLocator(index: number){
+    return `signing-key-${index}`;
   }
 
-  async cardCreationDateText(index: number, parentElement = "") {
-    return $(`${parentElement} [data-testid="card-created-${index}"]`);
+  async textValueFor(blockName: string) {
+    return $(`[data-testid="${blockName}-text-value"]`);
   }
 
-  async cardDisplayNameText(index: number, parentElement = "") {
-    return $(`${parentElement} [data-testid="card-display-name-${index}"]`);
-  }
-
-  async assertDisplayName(editedIdentityName: string) {
+  async assertCardDisplayName(identifierName: string) {
     await expect(
-      await this.cardDisplayNameText(0, this.identifierParentLocator)
-    ).toHaveText(editedIdentityName);
+      await this.cardDisplayNameText(0)
+    ).toHaveText(identifierName);
   }
 
   async loads(identifierName: string) {
@@ -79,24 +82,37 @@ export class IdentifierCardDetailsScreen {
     await expect(this.favouriteButton).toBeDisplayed();
     await expect(this.shareButton).toBeDisplayed();
     await expect(this.optionsButton).toBeDisplayed();
-    await expect(this.cardDisplayNameText(0)).toHaveText(identifierName);
+    await this.assertCardDisplayName(identifierName);
     await expect(
       await this.cardCreationDateText(0)
     ).toHaveText(format(new Date(), "dd/MM/yyyy"));
     await expect(this.screenTitle).toHaveText(IdentifierDetails.Title);
     await expect(
-      await this.cardBlockTextValueFor("identifier-id")
-    ).not.toBeNull();
+      await this.blockTextValueFor(this.identifierIdLocator)
+    ).toHaveText("Identifier ID");
     await expect(
-      await this.cardBlockKeyValueFor("creation-timestamp")
+      await this.textValueFor(this.identifierIdLocator)
+    ).not.toBeNull();
+    await expect(this.copyButtonFor(this.identifierIdLocator)).toBeDisplayed();
+    await expect(
+      await this.blockTextValueFor("created")
+    ).toHaveText("Created");
+    await expect(
+      await this.keyValueFor(this.creationTimestampLocator)
     ).toHaveText(format(new Date(), "dd/MM/yyyy"));
     await expect(
-      await this.cardBlockTextValueFor("signing-key-0")
+      await this.textValueFor(this.creationTimestampLocator)
     ).not.toBeNull();
+    await expect(
+      await this.blockTextValueFor(this.signingKeyLocator)
+    ).toHaveText("Signing key");
+    await expect(
+      await this.textValueFor(await this.signingKeyValueLocator(0))
+    ).not.toBeNull();
+    await expect(this.copyButtonFor(this.signingKeyLocator)).toBeDisplayed();
     await expect(this.rotateKeyButton).toBeExisting();
+    await expect(this.showAdvancedDetailsButton).toBeExisting();
     await expect(this.deleteIdentifierButton).toBeExisting();
-    await expect(this.deleteIdentifierButton).toBeExisting();
-    await cardDetails().cardBlocksForKeri();
   }
 }
 

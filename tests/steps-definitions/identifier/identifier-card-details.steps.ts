@@ -37,13 +37,13 @@ When(
 Then(
   /^user copy and verify details$/,
   async function () {
-    await cardDetails().choseIdentityDetailsToVerify();
+    await cardDetails().choseIdentifierDetailsToVerify();
   }
 );
 
 Then(
   /^user can see Card Details screen with new display name$/,
   async function () {
-    await IdentifierCardDetailsScreen.assertDisplayName(this.editedIdentityName);
+    await IdentifierCardDetailsScreen.assertCardDisplayName(this.editedIdentityName);
   }
 );

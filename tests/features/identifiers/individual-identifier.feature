@@ -21,10 +21,10 @@ Feature: IndividualIdentifier
     Given user tap Add an identifier button on the Identifiers screen
     When user add Individual identifier
     Then user can see toast message about created identifier on Identifiers screen
-    And user can see Identifier Card Details screen
+    And user can see Identifiers screen with 1 card
 
   Scenario: IndividualIdentifier - Create individual identifier from plus icon
     Given user tap Plus button on the screen
     When user add Individual identifier
     Then user can see toast message about created identifier on Identifiers screen
-    And user can see Identifier Card Details screen
+    And user can see Identifiers screen with 1 card
