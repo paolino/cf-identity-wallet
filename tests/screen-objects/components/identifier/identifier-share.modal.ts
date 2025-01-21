@@ -31,7 +31,7 @@ export class IdentifierShareModal extends CommonIdentifierModal {
   }
 
   async loads() {
-    await expect(this.modalTitle).toHaveText("Share connection");
+    await expect(await this.modalTitle).toHaveText("Share connection");
     await expect(this.qrCodeColumn).toBeDisplayed();
     await expect(this.copyButton).toBeDisplayed();
     await expect(this.copyButtonLabel).toHaveText("Copy connection URL");
