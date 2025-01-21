@@ -15,6 +15,7 @@ When(
   /^user chose newly created identifier on Identifiers screen$/,
   async function () {
     await (await IdentifiersScreen.identityAllCard(0)).click();
+    await (await IdentifiersScreen.identityAllCard(0)).waitForDisplayed({ reverse: true });
   }
 );
 

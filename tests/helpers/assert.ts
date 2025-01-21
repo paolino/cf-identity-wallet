@@ -14,7 +14,7 @@ export class Assert {
   }
 
   async toast(message: string) {
-    await expect(await this.toastMessageOverlay).toHaveText(message);
+    await expect(this.toastMessageOverlay).toHaveText(message);
     await this.toastMessageOverlay.waitForDisplayed({ reverse: true });
   }
 }

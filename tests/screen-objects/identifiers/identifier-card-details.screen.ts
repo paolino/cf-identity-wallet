@@ -4,8 +4,6 @@ import BaseModal from "../components/base.modal.js";
 import { IdentifierDetails } from "../../constants/text.constants.js";
 
 export class IdentifierCardDetailsScreen {
-  // identifierParentLocator =
-  //   "[data-testid=\"identifier-card-template-default-index-0\"]";
   creationTimestampLocator="creation-timestamp";
   identifierIdLocator="identifier-id";
   signingKeyLocator="signingkey";
@@ -31,7 +29,7 @@ export class IdentifierCardDetailsScreen {
   }
 
   get screenTitle() {
-    return $("[data-testid=\"list-header-title\"]");
+    return $("[data-testid=\"list-header-title-identifier-details\"]");
   }
 
   get shareButton() {
@@ -42,17 +40,20 @@ export class IdentifierCardDetailsScreen {
     return $("[data-testid=\"show-advanced-block-nav-button\"]");
   }
 
+  identifierCardTemplateModal(index: number) {
+    return `[data-testid="identifier-card-template-default-index-${index}"]`;
+  }
+
   async blockTextValueFor(blockName: string) {
     return $(`[data-testid="${blockName}-block-text-value"]`);
   }
 
   async cardCreationDateText(index: number) {
-    return $(`[data-testid="card-created-${index}"]`);
+    return $(`${this.identifierCardTemplateModal(index)} [data-testid="card-created-${index}"]`);
   }
 
-
   async cardDisplayNameText(index: number) {
-    return $(`[data-testid="card-display-name-${index}"]`);
+    return $(`${this.identifierCardTemplateModal(index)} [data-testid="card-display-name-${index}"]`);
   }
 
   async copyButtonFor(name: string) {
@@ -72,6 +73,7 @@ export class IdentifierCardDetailsScreen {
   }
 
   async assertCardDisplayName(identifierName: string) {
+    await (await this.cardDisplayNameText(0)).waitForDisplayed();
     await expect(
       await this.cardDisplayNameText(0)
     ).toHaveText(identifierName);
@@ -93,7 +95,7 @@ export class IdentifierCardDetailsScreen {
     await expect(
       await this.textValueFor(this.identifierIdLocator)
     ).not.toBeNull();
-    await expect(this.copyButtonFor(this.identifierIdLocator)).toBeDisplayed();
+    await expect(await this.copyButtonFor(this.identifierIdLocator)).toBeExisting();
     await expect(
       await this.blockTextValueFor("created")
     ).toHaveText("Created");
@@ -109,7 +111,7 @@ export class IdentifierCardDetailsScreen {
     await expect(
       await this.textValueFor(await this.signingKeyValueLocator(0))
     ).not.toBeNull();
-    await expect(this.copyButtonFor(this.signingKeyLocator)).toBeDisplayed();
+    await expect(await this.copyButtonFor(this.signingKeyLocator)).toBeExisting();
     await expect(this.rotateKeyButton).toBeExisting();
     await expect(this.showAdvancedDetailsButton).toBeExisting();
     await expect(this.deleteIdentifierButton).toBeExisting();

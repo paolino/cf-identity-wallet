@@ -5,7 +5,7 @@ Feature: IndividualIdentifierDetails
 
   Scenario: IndividualIdentifierDetails - Done button on card details screen of Individual identifier works correctly
     Given user add Individual identifier through plus icon
-    And user can see Identifier Card Details screen
+    And user can see Identifiers screen with 1 card
     When user chose newly created identifier on Identifiers screen
     And user can see Identifier Card Details screen
     And tap Done button on Identifier Card Details screen

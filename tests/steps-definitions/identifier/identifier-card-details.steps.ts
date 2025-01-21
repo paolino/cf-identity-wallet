@@ -24,7 +24,7 @@ When(
 );
 
 When(/^tap Done button on Identifier Card Details screen$/, async function () {
-  await BaseModal.tapDoneButton();
+  await BaseModal.clickCloseButtonOf("");
 });
 
 When(
